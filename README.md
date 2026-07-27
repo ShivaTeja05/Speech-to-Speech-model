@@ -34,7 +34,7 @@ This repository consolidates the full body of work behind the project — from t
    03 apollo-engine  ── separate research direction: one unified model instead of a cascade
 ```
 
-- **01 → 02**: The prototype proved the 8-stage cascade end to end. The production layer is the cleaner, benchmarked rewrite of that idea. Features that still live only in **01** (safety gate, RAG retrieval, admin/healthcare config, web UI) are candidates to fold back into **02**.
+- **01 → 02**: The prototype proved the 8-stage cascade end to end. The production layer is the cleaner, benchmarked rewrite of that idea. The prototype's **text safety gate and RAG grounding have now been folded into 02** (`src/llm/safety_gate.py`, `src/llm/rag_retriever.py`; see `02-voice-model-ai/INTEGRATION_SAFETY_RAG.md`). The admin/healthcare config and web UI still live only in **01**.
 - **04 → 01/02**: Both runtime pipelines speak Tamil using the voice trained in layer 04.
 - **03**: An independent bet on a single unified speech-to-speech transformer (vs. the cascade). Promising architecture, not yet trained.
 
@@ -45,6 +45,7 @@ This repository consolidates the full body of work behind the project — from t
 | Component | Status | Evidence |
 |-----------|--------|----------|
 | LLM orchestration (Ollama, semantic cache, Redis sessions, fillers) | ✅ Verified working | `02-voice-model-ai/test_output.txt` — real run, pipeline completed in 0.21s |
+| Text safety gate + RAG grounding (merged from layer 01) | ✅ Verified working | `02-voice-model-ai/test_safety_rag.py` — 14/14 pass, real Ollama end-to-end |
 | Custom Tamil Piper TTS voice | ✅ Real trained asset | `02-voice-model-ai/ta_IN-iitm-female-s1-medium.onnx` (61 MB) |
 | 8-stage prototype (VAD→…→TTS) with safety gate + RAG + UI | ✅ Working prototype | `01-demo-thit-prototype/app.py` (FastAPI, ~45 KB) |
 | GPU latency benchmarks | ✅ Backed by artifacts | `02-voice-model-ai/results/` (measured on AMD MI300X, 2026-02-22) |

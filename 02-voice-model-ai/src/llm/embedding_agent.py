@@ -4,14 +4,18 @@ Generates embeddings, performs semantic cache lookup, and manages conversation c
 Now with natural fillers and back-channeling support!
 """
 
+import os
+
 from .ollama_client import embed_text, chat
 from .semantic_cache import SemanticCache
 from .redis_context import RedisContextManager
 from .filler_manager import (
-    FillerBackchannelManager, 
+    FillerBackchannelManager,
     get_enhanced_system_prompt,
     FillerType
 )
+from .safety_gate import run_safety_gate, build_safety_directive
+from .rag_retriever import RAGRetriever, load_documents_from_json
 from src.config import settings
 
 # Language Code Map
@@ -31,6 +35,39 @@ LANGUAGE_MAP = {
 cache = SemanticCache()
 context_manager = RedisContextManager()
 filler_manager = FillerBackchannelManager()
+
+# --- RAG knowledge base (lazy singleton) ---------------------------------
+# Grounds LLM answers in a small hospital knowledge base. Built once on first
+# use; degrades gracefully (returns no context) if the KB or Ollama embeddings
+# are unavailable.
+_KB_PATH = os.environ.get(
+    "RAG_KB_PATH",
+    os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "data", "knowledge_base.json"),
+)
+_rag_retriever = None
+_rag_init_failed = False
+
+
+def get_rag_retriever():
+    """Return the shared RAGRetriever, building its index on first call."""
+    global _rag_retriever, _rag_init_failed
+    if _rag_retriever is not None or _rag_init_failed:
+        return _rag_retriever
+    try:
+        docs = load_documents_from_json(_KB_PATH)
+        if not docs:
+            _rag_init_failed = True
+            return None
+        retriever = RAGRetriever()
+        retriever.add_documents(docs)
+        if retriever.build_index():
+            _rag_retriever = retriever
+        else:
+            _rag_init_failed = True
+    except Exception as e:
+        print(f"[WARN] RAG init failed: {e}")
+        _rag_init_failed = True
+    return _rag_retriever
 
 # Default system prompt for medical assistant
 # Default system prompt for medical assistant
@@ -159,9 +196,11 @@ def process_with_context(
     stream: bool = False,
     temperature: float = 0.7,
     max_tokens: int = 256,
+    enable_safety: bool = True,
+    enable_rag: bool = True,
 ):
     """
-    Full pipeline with Redis context: Embedding → Cache → Context → LLM → Store
+    Full pipeline with Redis context: Safety → RAG → Embedding → Cache → Context → LLM → Store
     
     Args:
         prompt: Input text from STT layer
@@ -217,6 +256,37 @@ def process_with_context(
             if metadata.get("sustained_distress") == "True":
                  system_prompt += "\nUSER IS IN DISTRESS. HELP THEM."
     
+    # --- Safety gate + RAG grounding (text side) -------------------------
+    # Language for lexicons/retrieval comes from the audio layer's metadata.
+    detected_lang = (metadata or {}).get("detected_language", "en")
+
+    safety = {"should_escalate": False, "rules_triggered": [], "escalation_reason": None}
+    if enable_safety:
+        try:
+            safety = run_safety_gate(prompt, language=detected_lang)
+            directive = build_safety_directive(safety, language=detected_lang)
+            if directive:
+                system_prompt += directive
+        except Exception as e:
+            print(f"[WARN] Safety gate failed: {e}")
+
+    rag_used = False
+    if enable_rag:
+        try:
+            retriever = get_rag_retriever()
+            if retriever is not None:
+                context_block = retriever.build_context_block(prompt, top_k=3, language=detected_lang)
+                if context_block:
+                    system_prompt += context_block
+                    rag_used = True
+        except Exception as e:
+            print(f"[WARN] RAG retrieval failed: {e}")
+
+    # When the safety gate escalates, bypass the semantic cache so we never
+    # serve a stale non-emergency answer to an emergency turn.
+    if safety.get("should_escalate"):
+        similarity_threshold = 1.1  # unreachable → guarantees a cache miss
+
     # Fast-fail context path when Redis is unavailable.
     redis_available = False
     if session_id == "temp_session":
@@ -333,9 +403,12 @@ def process_with_context(
             "new_session": is_new_session,
             "filler_audio": filler_audio if used_filler else None,
             "language": filler_manager._session_language,
+            "escalate": safety.get("should_escalate", False),
+            "safety": safety,
+            "rag_used": rag_used,
             "stream": True
         }
-        
+
     else:
         # Non-streaming fallback
         filler_manager.reset_turn()
@@ -360,7 +433,10 @@ def process_with_context(
             "new_session": is_new_session,
             "context_turns": len(messages),
             "filler_audio": filler_audio if used_filler else None,
-            "language": filler_manager._session_language
+            "language": filler_manager._session_language,
+            "escalate": safety.get("should_escalate", False),
+            "safety": safety,
+            "rag_used": rag_used
         }
 
 
