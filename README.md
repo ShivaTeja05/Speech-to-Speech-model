@@ -133,16 +133,15 @@ follows:
 | Layer | Component | Built by |
 |-------|-----------|----------|
 | `01` | Demo-THIT prototype (8-stage FastAPI voice app + web/admin UI) | **Advita** |
-| `02` | voice-model-ai — **model training and multilingual integration** (per-language ASR/LID/LLM/TTS pipeline) | **Shiva Teja** ([@ShivaTeja05](https://github.com/ShivaTeja05)) |
+| `02` | voice-model-ai — model training + multilingual integration (per-language ASR/LID/LLM/TTS pipeline) | **Shiva Teja** ([@ShivaTeja05](https://github.com/ShivaTeja05)) & **Jeevith G** ([@jeevithg090](https://github.com/jeevithg090)) |
+| `03` | apollo-engine (unified SNAC + Sarvam-1 transformer) + cross-layer integration | **Shiva Teja** ([@ShivaTeja05](https://github.com/ShivaTeja05)) & **Jeevith G** ([@jeevithg090](https://github.com/jeevithg090)) |
 | `04` | tts-training — training the custom Tamil voice used by the pipeline | **Shiva Teja** ([@ShivaTeja05](https://github.com/ShivaTeja05)) |
-| `03` | apollo-engine (unified SNAC + Sarvam-1 transformer) **and cross-layer integration** | **Jeevith G** ([@jeevithg090](https://github.com/jeevithg090)) |
 
-**Shiva Teja's role:** trained the models and integrated the system across
-languages (layer 02 + the layer-04 voice training).
+**Shiva Teja's role:** trained the models and led multilingual integration —
+co-built layers 02 and 03 with Jeevith, and trained the Tamil voice (layer 04).
 **Advita's role:** built the first working prototype (layer 01).
-**Jeevith's role:** built the unified-transformer research engine (layer 03) and
-the overall integration; the team's shared codebase lived on his machine and
-in his repositories.
+**Jeevith's role:** co-built layers 02 and 03 and drove the overall integration;
+the team's shared codebase lived on his machine and in his repositories.
 
 Original repositories (authoritative commit history):
 
