@@ -18,8 +18,6 @@ torchaudio>=2.1.0
 
 # Speech-to-Text (Faster-Whisper)
 faster-whisper==1.0.0
-# Speech-to-Text (Faster-Whisper)
-faster-whisper==1.0.0
 ctranslate2>=4.0.0
 
 # Language Detection

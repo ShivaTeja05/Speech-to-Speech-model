@@ -87,7 +87,7 @@ WebRTC / Twilio ─▶ Normalize + endpoint (VAD) ─▶ ┬─ MMS-LID (languag
 | GPU latency benchmarks | ✅ Backed by artifacts | `02-voice-model-ai/results/` (measured on AMD MI300X, 2026-02-22) |
 | WebRTC / Twilio ingress | 🟡 Coded, needs full GPU stack to exercise | `02-voice-model-ai/src/realtime/` |
 | Emergency detector (Mimi + classifier) | 🟡 Code + benchmarks exist; **trained weights not in this repo** | `02-voice-model-ai/src/train_emergency_classifier.py` |
-| Unified SNAC + Sarvam transformer | 🔬 Architecture only, **untrained** | `03-apollo-engine/.../models/audio_llm.py` |
+| Unified SNAC + Sarvam transformer | 🔬 Architecture only, **untrained** | `03-apollo-engine/apollo_voice_engine/models/audio_llm.py` |
 
 **Measured performance** (from the paper, on a rented AMD MI300X — *not* on a laptop): time-to-first-sound ≈ 488 ms, end-to-end ≈ 742 ms, direct operating cost ≈ ₹0.95/min. Full breakdown: `02-voice-model-ai/results/latency_validation_report.md`.
 
@@ -101,6 +101,7 @@ WebRTC / Twilio ─▶ Normalize + endpoint (VAD) ─▶ ┬─ MMS-LID (languag
 ├── 02-voice-model-ai/        # Production pipeline + emergency classifier + benchmarks
 ├── 03-apollo-engine/         # Unified SNAC + Sarvam-1 research scaffold
 ├── 04-tts-training/          # Tamil voice training: notebooks, data scripts, voice assets
+├── ARCHITECTURE.md           # Full layer-by-layer architecture (every component)
 ├── .gitignore
 └── README.md                 # (this file)
 ```

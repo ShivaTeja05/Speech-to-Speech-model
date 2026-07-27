@@ -1,5 +1,12 @@
 # Apollo Omni-Indic Voice Engine
 
+> **⚠️ Status: research scaffold — architecture only, not trained.**
+> This layer implements the *architecture* of a unified speech-to-speech
+> transformer, but **no trained weights exist**, so it does not yet run as a
+> working system (untrained, it produces noise). The features, latency, and
+> cost figures below describe the **intended design/target**, not measured
+> results. For a working, benchmarked pipeline see `../02-voice-model-ai/`.
+
 A unified, de-novo speech-to-speech transformer for real-time conversational AI in Indian regional languages (Tamil, Telugu, Kannada, Hindi).
 
 ## Features
