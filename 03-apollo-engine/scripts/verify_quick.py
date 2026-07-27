@@ -37,8 +37,12 @@ def main():
     speaker_encoder = SpeakerEncoder(device=device)
     print("    ✓ Speaker Encoder loaded")
     
-    # 2. Find a sample audio
-    dataset_dir = Path("/Users/jeevithg/Documents/Speech to Speech/indic_voices_dataset/dataset_audio/hindi")
+    # 2. Find a sample audio — override base with APOLLO_DATASET_DIR; defaults to the bundled dataset.
+    _ds_base = Path(os.environ.get(
+        "APOLLO_DATASET_DIR",
+        Path(__file__).resolve().parent.parent / "indic_voices_dataset",
+    ))
+    dataset_dir = _ds_base / "dataset_audio" / "hindi"
     wav_files = list(dataset_dir.glob("*.wav"))
     
     if not wav_files:

@@ -33,8 +33,11 @@ async def verify_architecture():
     
     # 2. Load Reference Audio
     print("\n[Step 2] Loading Reference Audio for Session Anchoring...")
-    # Just grab a sample file
-    dataset_path = "/Users/jeevithg/Documents/Speech to Speech/indic_voices_dataset"
+    # Just grab a sample file — override with APOLLO_DATASET_DIR; defaults to the bundled dataset.
+    dataset_path = os.environ.get(
+        "APOLLO_DATASET_DIR",
+        os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "indic_voices_dataset"),
+    )
     sample = load_random_sample(dataset_path, language="hi")
     if not sample:
         print("❌ Could not load sample audio.")

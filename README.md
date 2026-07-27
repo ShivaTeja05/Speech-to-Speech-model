@@ -125,13 +125,32 @@ Each layer runs independently. Copy `.env.example` → `.env` where present, the
 
 ## Team & Attribution
 
-This is a **team project**. The three engine codebases (layers 01–03) were primarily developed by **Jeevith G ([@jeevithg090](https://github.com/jeevithg090))**, originally in the repositories:
+This is a **team project**, built layer by layer by three people. All of the
+code was developed and committed on **Jeevith's system**, so the original
+per-file git history is attributed to his account — but the work was divided as
+follows:
+
+| Layer | Component | Built by |
+|-------|-----------|----------|
+| `01` | Demo-THIT prototype (8-stage FastAPI voice app + web/admin UI) | **Advita** |
+| `02` | voice-model-ai — **model training and multilingual integration** (per-language ASR/LID/LLM/TTS pipeline) | **Shiva Teja** ([@ShivaTeja05](https://github.com/ShivaTeja05)) |
+| `04` | tts-training — training the custom Tamil voice used by the pipeline | **Shiva Teja** ([@ShivaTeja05](https://github.com/ShivaTeja05)) |
+| `03` | apollo-engine (unified SNAC + Sarvam-1 transformer) **and cross-layer integration** | **Jeevith G** ([@jeevithg090](https://github.com/jeevithg090)) |
+
+**Shiva Teja's role:** trained the models and integrated the system across
+languages (layer 02 + the layer-04 voice training).
+**Advita's role:** built the first working prototype (layer 01).
+**Jeevith's role:** built the unified-transformer research engine (layer 03) and
+the overall integration; the team's shared codebase lived on his machine and
+in his repositories.
+
+Original repositories (authoritative commit history):
 
 - `01` — https://github.com/jeevithg090/Demo-THIT
 - `02` — https://github.com/jeevithg090/Voice-AI-Model
 - `03` — https://github.com/jeevithg090/Speech-to-Speech
 
-This consolidated monorepo is maintained by **Shiva Teja ([@ShivaTeja05](https://github.com/ShivaTeja05))**. Please refer to the original repositories for authoritative commit history.
+This consolidated monorepo is maintained by **Shiva Teja ([@ShivaTeja05](https://github.com/ShivaTeja05))**.
 
 ## License
 

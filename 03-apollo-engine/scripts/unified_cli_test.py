@@ -67,8 +67,11 @@ async def main():
     engine = UnifiedVoiceEngine(config)
     engine.load_models()
     
-    # Dataset Params
-    dataset_path = "/Users/jeevithg/Documents/Speech to Speech/indic_voices_dataset"
+    # Dataset Params — override with APOLLO_DATASET_DIR; defaults to the bundled dataset.
+    dataset_path = os.environ.get(
+        "APOLLO_DATASET_DIR",
+        os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "indic_voices_dataset"),
+    )
     
     # Test Loop
     num_tests = 1
