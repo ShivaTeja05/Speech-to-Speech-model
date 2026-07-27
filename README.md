@@ -102,6 +102,7 @@ WebRTC / Twilio ─▶ Normalize + endpoint (VAD) ─▶ ┬─ MMS-LID (languag
 ├── 03-apollo-engine/         # Unified SNAC + Sarvam-1 research scaffold
 ├── 04-tts-training/          # Tamil voice training: notebooks, data scripts, voice assets
 ├── ARCHITECTURE.md           # Full layer-by-layer architecture (every component)
+├── PROJECT_DESCRIPTION.md    # Narrative project description (problem, design, results)
 ├── .gitignore
 └── README.md                 # (this file)
 ```
