@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apollo Hospital - Voice AI Assistant</title>
+    <link rel="stylesheet" href="/static/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo-section">
+                <div class="apollo-logo">
+                    <svg viewBox="0 0 40 40" class="logo-icon">
+                        <circle cx="20" cy="20" r="18" fill="#1a56db" stroke="#fff" stroke-width="2"/>
+                        <path d="M20 8 L20 32 M12 20 L28 20" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
+                    </svg>
+                    <div class="logo-text">
+                        <h1>Apollo Hospital</h1>
+                        <span class="tagline">Voice AI Assistant</span>
+                    </div>
+                </div>
+            </div>
+            <div class="status-indicator" id="statusIndicator">
+                <span class="status-dot"></span>
+                <span class="status-text">Connecting...</span>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Language Selection -->
+            <div class="language-section">
+                <label for="languageSelect">Select Language:</label>
+                <select id="languageSelect" class="language-select">
+                    <option value="">Auto-detect</option>
+                    <option value="kn">Kannada (ಕನ್ನಡ)</option>
+                    <option value="ta">Tamil (தமிழ்)</option>
+                    <option value="te">Telugu (తెలుగు)</option>
+                    <option value="hi">Hindi (हिन्दी)</option>
+                </select>
+            </div>
+
+            <!-- Input Section -->
+            <div class="input-section">
+                <div class="input-card">
+                    <h3>Speak Your Query</h3>
+                    <p class="input-description">Press and hold the microphone button to record your health query</p>
+                    
+                    <div class="mic-container">
+                        <button id="micButton" class="mic-button" aria-label="Record audio">
+                            <svg class="mic-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+                                <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+                                <line x1="12" y1="19" x2="12" y2="23"/>
+                                <line x1="8" y1="23" x2="16" y2="23"/>
+                            </svg>
+                            <div class="pulse-ring"></div>
+                        </button>
+                        <div class="recording-indicator" id="recordingIndicator">
+                            <span class="recording-dot"></span>
+                            <span>Recording...</span>
+                        </div>
+                    </div>
+
+                    <div class="divider">
+                        <span>or</span>
+                    </div>
+
+                    <div class="upload-section">
+                        <input type="file" id="audioUpload" accept="audio/*" hidden>
+                        <button id="uploadButton" class="upload-button">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                                <polyline points="17 8 12 3 7 8"/>
+                                <line x1="12" y1="3" x2="12" y2="15"/>
+                            </svg>
+                            Upload Audio File
+                        </button>
+                        <span id="fileName" class="file-name"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pipeline Visualization -->
+            <div class="pipeline-section" id="pipelineSection">
+                <h3>Processing Pipeline</h3>
+                <div class="pipeline-stages">
+                    <div class="stage" data-stage="vad">
+                        <div class="stage-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+                            </svg>
+                        </div>
+                        <div class="stage-info">
+                            <span class="stage-name">VAD</span>
+                            <span class="stage-latency">--</span>
+                        </div>
+                        <div class="stage-status"></div>
+                    </div>
+                    <div class="stage-connector"></div>
+                    
+                    <div class="stage" data-stage="stt">
+                        <div class="stage-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                            </svg>
+                        </div>
+                        <div class="stage-info">
+                            <span class="stage-name">STT</span>
+                            <span class="stage-latency">--</span>
+                        </div>
+                        <div class="stage-status"></div>
+                    </div>
+                    <div class="stage-connector"></div>
+                    
+                    <div class="stage" data-stage="language_detection">
+                        <div class="stage-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"/>
+                                <line x1="2" y1="12" x2="22" y2="12"/>
+                                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+                            </svg>
+                        </div>
+                        <div class="stage-info">
+                            <span class="stage-name">Lang</span>
+                            <span class="stage-latency">--</span>
+                        </div>
+                        <div class="stage-status"></div>
+                    </div>
+                    <div class="stage-connector"></div>
+                    
+                    <div class="stage" data-stage="layer1_signals">
+                        <div class="stage-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+                            </svg>
+                        </div>
+                        <div class="stage-info">
+                            <span class="stage-name">Signals</span>
+                            <span class="stage-latency">--</span>
+                        </div>
+                        <div class="stage-status"></div>
+                    </div>
+                    <div class="stage-connector"></div>
+                    
+                    <div class="stage" data-stage="safety_gate">
+                        <div class="stage-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                            </svg>
+                        </div>
+                        <div class="stage-info">
+                            <span class="stage-name">Safety</span>
+                            <span class="stage-latency">--</span>
+                        </div>
+                        <div class="stage-status"></div>
+                    </div>
+                    <div class="stage-connector"></div>
+                    
+                    <div class="stage" data-stage="policy">
+                        <div class="stage-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                                <polyline points="14 2 14 8 20 8"/>
+                            </svg>
+                        </div>
+                        <div class="stage-info">
+                            <span class="stage-name">Policy</span>
+                            <span class="stage-latency">--</span>
+                        </div>
+                        <div class="stage-status"></div>
+                    </div>
+                    <div class="stage-connector"></div>
+                    
+                    <div class="stage" data-stage="llm">
+                        <div class="stage-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+                                <line x1="8" y1="21" x2="16" y2="21"/>
+                                <line x1="12" y1="17" x2="12" y2="21"/>
+                            </svg>
+                        </div>
+                        <div class="stage-info">
+                            <span class="stage-name">LLM</span>
+                            <span class="stage-latency">--</span>
+                        </div>
+                        <div class="stage-status"></div>
+                    </div>
+                    <div class="stage-connector"></div>
+                    
+                    <div class="stage" data-stage="tts">
+                        <div class="stage-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+                                <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/>
+                            </svg>
+                        </div>
+                        <div class="stage-info">
+                            <span class="stage-name">TTS</span>
+                            <span class="stage-latency">--</span>
+                        </div>
+                        <div class="stage-status"></div>
+                    </div>
+                </div>
+                
+                <div class="total-latency" id="totalLatency">
+                    <span class="latency-label">Total Latency:</span>
+                    <span class="latency-value">--</span>
+                </div>
+            </div>
+
+            <!-- Escalation Alert -->
+            <div class="escalation-alert" id="escalationAlert" hidden>
+                <div class="alert-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+                        <line x1="12" y1="9" x2="12" y2="13"/>
+                        <line x1="12" y1="17" x2="12.01" y2="17"/>
+                    </svg>
+                </div>
+                <div class="alert-content">
+                    <h4>Medical Emergency Detected</h4>
+                    <p id="escalationReason"></p>
+                    <div class="emergency-info">
+                        <strong>Call Emergency: 108</strong>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Conversation Section -->
+            <div class="conversation-section" id="conversationSection">
+                <h3>Conversation</h3>
+                <div class="conversation-container" id="conversationContainer">
+                    <div class="empty-state">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                        </svg>
+                        <p>Start a conversation by recording or uploading audio</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Audio Player -->
+            <div class="audio-player-section" id="audioPlayerSection" hidden>
+                <h3>AI Response</h3>
+                <audio id="responseAudio" controls></audio>
+            </div>
+
+            <!-- Signal Details -->
+            <div class="signals-section" id="signalsSection" hidden>
+                <h3>Detected Signals</h3>
+                <div class="signals-grid">
+                    <div class="signal-card">
+                        <span class="signal-label">Intent</span>
+                        <span class="signal-value" id="signalIntent">--</span>
+                    </div>
+                    <div class="signal-card">
+                        <span class="signal-label">Urgency</span>
+                        <span class="signal-value" id="signalUrgency">--</span>
+                    </div>
+                    <div class="signal-card">
+                        <span class="signal-label">Tone</span>
+                        <span class="signal-value" id="signalTone">--</span>
+                    </div>
+                    <div class="signal-card">
+                        <span class="signal-label">Language</span>
+                        <span class="signal-value" id="signalLanguage">--</span>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>Apollo Hospital Voice AI Assistant - Hackathon Demo</p>
+            <p class="footer-sub">Supports: Kannada, Tamil, Telugu, Hindi | Target: &lt;500ms latency, &lt;Rs.2/min</p>
+        </footer>
+    </div>
+
+    <script src="/static/app.js"></script>
+</body>
+</html>

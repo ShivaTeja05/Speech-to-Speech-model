@@ -1,0 +1,290 @@
+{
+  "hospital": {
+    "name": "Apollo Hospital",
+    "city": "Bengaluru",
+    "emergency_number": "108",
+    "helpline": "1860-500-1066",
+    "address": "154/11, Bannerghatta Road, Opposite IIM-B, Bengaluru - 560076"
+  },
+  "config": {
+    "hospital_name": "Apollo Hospital",
+    "city": "Bengaluru",
+    "emergency_number": "108",
+    "helpline": "1860-500-1066",
+    "tone": "formal",
+    "max_words": 50,
+    "primary_language": "en",
+    "supported_languages": ["kn", "ta", "te", "hi", "en"],
+    "disclaimer_required": true,
+    "disclaimer_text": "This is general information only. Please consult a doctor for proper medical advice.",
+    "always_recommend_doctor": true,
+    "tts_enabled": true,
+    "session_timeout_minutes": 30,
+    "escalation_keywords": []
+  },
+  "doctors": [
+    {
+      "id": "d001",
+      "name": "Dr. Ananya Sharma",
+      "name_kn": "ಡಾ. ಅನನ್ಯ ಶರ್ಮಾ",
+      "name_hi": "डॉ. अनन्या शर्मा",
+      "specialization": "General Medicine",
+      "department": "Internal Medicine",
+      "available_days": ["Monday", "Wednesday", "Friday"],
+      "timings": "9:00 AM - 1:00 PM",
+      "languages": ["en", "hi", "kn"],
+      "consultation_fee": "500"
+    },
+    {
+      "id": "d002",
+      "name": "Dr. Rajesh Kumar",
+      "name_kn": "ಡಾ. ರಾಜೇಶ್ ಕುಮಾರ್",
+      "name_hi": "डॉ. राजेश कुमार",
+      "specialization": "Cardiology",
+      "department": "Cardiology",
+      "available_days": ["Tuesday", "Thursday", "Saturday"],
+      "timings": "10:00 AM - 4:00 PM",
+      "languages": ["en", "hi"],
+      "consultation_fee": "800"
+    },
+    {
+      "id": "d003",
+      "name": "Dr. Priya Venkatesh",
+      "name_kn": "ಡಾ. ಪ್ರಿಯಾ ವೆಂಕಟೇಶ್",
+      "name_ta": "டாக்டர் பிரியா வெங்கடேஷ்",
+      "specialization": "Pediatrics",
+      "department": "Pediatrics",
+      "available_days": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+      "timings": "9:00 AM - 5:00 PM",
+      "languages": ["en", "kn", "ta"],
+      "consultation_fee": "600"
+    },
+    {
+      "id": "d004",
+      "name": "Dr. Suresh Reddy",
+      "name_te": "డాక్టర్ సురేష్ రెడ్డి",
+      "name_kn": "ಡಾ. ಸುರೇಶ್ ರೆಡ್ಡಿ",
+      "specialization": "Orthopedics",
+      "department": "Orthopedics",
+      "available_days": ["Monday", "Wednesday", "Friday", "Saturday"],
+      "timings": "11:00 AM - 6:00 PM",
+      "languages": ["en", "te", "kn"],
+      "consultation_fee": "700"
+    },
+    {
+      "id": "d005",
+      "name": "Dr. Meera Krishnan",
+      "name_ta": "டாக்டர் மீரா கிருஷ்ணன்",
+      "specialization": "Gynecology",
+      "department": "Obstetrics & Gynecology",
+      "available_days": ["Tuesday", "Thursday", "Saturday"],
+      "timings": "2:00 PM - 7:00 PM",
+      "languages": ["en", "ta"],
+      "consultation_fee": "750"
+    },
+    {
+      "id": "d006",
+      "name": "Dr. Arun Patel",
+      "name_hi": "डॉ. अरुण पटेल",
+      "specialization": "Dermatology",
+      "department": "Dermatology",
+      "available_days": ["Monday", "Wednesday", "Friday"],
+      "timings": "10:00 AM - 2:00 PM",
+      "languages": ["en", "hi"],
+      "consultation_fee": "600"
+    },
+    {
+      "id": "d007",
+      "name": "Dr. Kavitha Nair",
+      "name_kn": "ಡಾ. ಕವಿತಾ ನಾಯರ್",
+      "specialization": "Neurology",
+      "department": "Neurology",
+      "available_days": ["Tuesday", "Thursday"],
+      "timings": "9:00 AM - 3:00 PM",
+      "languages": ["en", "kn"],
+      "consultation_fee": "900"
+    },
+    {
+      "id": "d008",
+      "name": "Dr. Mohammed Farooq",
+      "name_hi": "डॉ. मोहम्मद फारूक",
+      "specialization": "Pulmonology",
+      "department": "Pulmonology",
+      "available_days": ["Monday", "Wednesday", "Friday"],
+      "timings": "3:00 PM - 7:00 PM",
+      "languages": ["en", "hi"],
+      "consultation_fee": "700"
+    }
+  ],
+  "departments": [
+    {
+      "id": "dept001",
+      "name": "Emergency",
+      "name_kn": "ತುರ್ತು ವಿಭಾಗ",
+      "floor": "Ground Floor",
+      "timings": "24/7",
+      "contact": "080-2630-4050"
+    },
+    {
+      "id": "dept002",
+      "name": "Cardiology",
+      "name_kn": "ಹೃದಯ ವಿಭಾಗ",
+      "floor": "3rd Floor",
+      "timings": "8:00 AM - 8:00 PM",
+      "contact": "080-2630-4051"
+    },
+    {
+      "id": "dept003",
+      "name": "Orthopedics",
+      "name_kn": "ಮೂಳೆ ವಿಭಾಗ",
+      "floor": "2nd Floor",
+      "timings": "9:00 AM - 6:00 PM",
+      "contact": "080-2630-4052"
+    },
+    {
+      "id": "dept004",
+      "name": "Pediatrics",
+      "name_kn": "ಮಕ್ಕಳ ವಿಭಾಗ",
+      "floor": "4th Floor",
+      "timings": "8:00 AM - 8:00 PM",
+      "contact": "080-2630-4053"
+    },
+    {
+      "id": "dept005",
+      "name": "Obstetrics & Gynecology",
+      "name_kn": "ಪ್ರಸೂತಿ ಮತ್ತು ಸ್ತ್ರೀರೋಗ ವಿಭಾಗ",
+      "floor": "5th Floor",
+      "timings": "9:00 AM - 7:00 PM",
+      "contact": "080-2630-4054"
+    },
+    {
+      "id": "dept006",
+      "name": "Neurology",
+      "name_kn": "ನರವಿಜ್ಞಾನ ವಿಭಾಗ",
+      "floor": "3rd Floor",
+      "timings": "9:00 AM - 5:00 PM",
+      "contact": "080-2630-4055"
+    },
+    {
+      "id": "dept007",
+      "name": "Radiology",
+      "name_kn": "ವಿಕಿರಣಶಾಸ್ತ್ರ ವಿಭಾಗ",
+      "floor": "1st Floor",
+      "timings": "7:00 AM - 10:00 PM",
+      "contact": "080-2630-4056"
+    },
+    {
+      "id": "dept008",
+      "name": "Pharmacy",
+      "name_kn": "ಔಷಧಾಲಯ",
+      "floor": "Ground Floor",
+      "timings": "24/7",
+      "contact": "080-2630-4057"
+    }
+  ],
+  "faqs": [
+    {
+      "id": "faq001",
+      "question": "What are the visiting hours?",
+      "question_kn": "ಭೇಟಿ ಸಮಯ ಏನು?",
+      "question_hi": "मुलाकात का समय क्या है?",
+      "question_ta": "பார்வையிடும் நேரம் என்ன?",
+      "answer": "Visiting hours are from 10:00 AM to 12:00 PM and 5:00 PM to 7:00 PM daily. ICU visiting is limited to 5 minutes per visit.",
+      "answer_kn": "ಭೇಟಿ ಸಮಯ ಪ್ರತಿದಿನ 10:00 AM ರಿಂದ 12:00 PM ಮತ್ತು 5:00 PM ರಿಂದ 7:00 PM. ICU ಭೇಟಿ ಪ್ರತಿ ಭೇಟಿಗೆ 5 ನಿಮಿಷಗಳಿಗೆ ಸೀಮಿತವಾಗಿದೆ.",
+      "category": "visiting"
+    },
+    {
+      "id": "faq002",
+      "question": "How do I book an appointment?",
+      "question_kn": "ನಾನು ಅಪಾಯಿಂಟ್ಮೆಂಟ್ ಹೇಗೆ ಬುಕ್ ಮಾಡಬಹುದು?",
+      "question_hi": "मैं अपॉइंटमेंट कैसे बुक करूं?",
+      "answer": "You can book an appointment through our website apollo.com, our mobile app, or by calling our helpline 1860-500-1066. Walk-in appointments are also available.",
+      "answer_kn": "ನೀವು ನಮ್ಮ ವೆಬ್‌ಸೈಟ್ apollo.com, ನಮ್ಮ ಮೊಬೈಲ್ ಅಪ್ಲಿಕೇಶನ್ ಮೂಲಕ ಅಥವಾ ನಮ್ಮ ಹೆಲ್ಪ್‌ಲೈನ್ 1860-500-1066 ಕರೆ ಮಾಡಿ ಅಪಾಯಿಂಟ್ಮೆಂಟ್ ಬುಕ್ ಮಾಡಬಹುದು.",
+      "category": "appointment"
+    },
+    {
+      "id": "faq003",
+      "question": "What insurance do you accept?",
+      "question_kn": "ನೀವು ಯಾವ ವಿಮೆಯನ್ನು ಸ್ವೀಕರಿಸುತ್ತೀರಿ?",
+      "question_hi": "आप कौन सी बीमा स्वीकार करते हैं?",
+      "answer": "We accept most major insurance providers including CGHS, ESI, Star Health, ICICI Lombard, HDFC Ergo, and many more. Please check with our billing counter for specific plans.",
+      "answer_kn": "ನಾವು CGHS, ESI, Star Health, ICICI Lombard, HDFC Ergo ಮತ್ತು ಇನ್ನೂ ಅನೇಕ ಪ್ರಮುಖ ವಿಮಾ ಒದಗಿಸುವವರನ್ನು ಸ್ವೀಕರಿಸುತ್ತೇವೆ.",
+      "category": "billing"
+    },
+    {
+      "id": "faq004",
+      "question": "Where is the parking facility?",
+      "question_kn": "ಪಾರ್ಕಿಂಗ್ ಸೌಲಭ್ಯ ಎಲ್ಲಿದೆ?",
+      "answer": "We have a multi-level parking facility in the basement with 500+ spaces. Valet parking is also available at the main entrance. First 30 minutes are free.",
+      "answer_kn": "ನೆಲಮಾಳಿಗೆಯಲ್ಲಿ 500+ ಸ್ಥಳಗಳೊಂದಿಗೆ ಬಹು-ಹಂತದ ಪಾರ್ಕಿಂಗ್ ಸೌಲಭ್ಯವಿದೆ. ಮುಖ್ಯ ಪ್ರವೇಶದ್ವಾರದಲ್ಲಿ ವ್ಯಾಲೆಟ್ ಪಾರ್ಕಿಂಗ್ ಲಭ್ಯವಿದೆ.",
+      "category": "general"
+    },
+    {
+      "id": "faq005",
+      "question": "What should I bring for admission?",
+      "question_kn": "ಆಸ್ಪತ್ರೆ ಸೇರ್ಪಡೆಗೆ ನಾನು ಏನು ತರಬೇಕು?",
+      "question_hi": "अस्पताल में भर्ती के लिए मुझे क्या लाना चाहिए?",
+      "answer": "Please bring: 1) Valid ID proof (Aadhaar/PAN), 2) Insurance card if applicable, 3) Previous medical records, 4) Doctor's referral letter if any, 5) Two passport-size photos.",
+      "answer_kn": "ದಯವಿಟ್ಟು ತನ್ನಿ: 1) ಮಾನ್ಯ ID ಪುರಾವೆ (ಆಧಾರ್/PAN), 2) ವಿಮಾ ಕಾರ್ಡ್ ಅನ್ವಯಿಸಿದರೆ, 3) ಹಿಂದಿನ ವೈದ್ಯಕೀಯ ದಾಖಲೆಗಳು, 4) ವೈದ್ಯರ ರೆಫರಲ್ ಪತ್ರ ಇದ್ದರೆ.",
+      "category": "general"
+    },
+    {
+      "id": "faq006",
+      "question": "Do you have ambulance service?",
+      "question_kn": "ನಿಮ್ಮಲ್ಲಿ ಆಂಬುಲೆನ್ಸ್ ಸೇವೆ ಇದೆಯೇ?",
+      "question_hi": "क्या आपके पास एम्बुलेंस सेवा है?",
+      "answer": "Yes, we have 24/7 ambulance service with advanced life support. Call 108 for emergency ambulance or our helpline 1860-500-1066 for scheduled transfers.",
+      "answer_kn": "ಹೌದು, ನಾವು 24/7 ಆಂಬುಲೆನ್ಸ್ ಸೇವೆಯನ್ನು ಅತ್ಯಾಧುನಿಕ ಜೀವನ ಬೆಂಬಲದೊಂದಿಗೆ ಹೊಂದಿದ್ದೇವೆ. ತುರ್ತು ಆಂಬುಲೆನ್ಸ್‌ಗಾಗಿ 108 ಕರೆ ಮಾಡಿ.",
+      "category": "emergency"
+    },
+    {
+      "id": "faq007",
+      "question": "How can I get my medical reports?",
+      "question_kn": "ನನ್ನ ವೈದ್ಯಕೀಯ ವರದಿಗಳನ್ನು ಹೇಗೆ ಪಡೆಯಬಹುದು?",
+      "question_hi": "मैं अपनी मेडिकल रिपोर्ट कैसे प्राप्त कर सकता हूं?",
+      "answer": "Medical reports can be collected from the Reports Counter on the Ground Floor. Lab reports are usually ready within 24 hours. You can also access them online through our patient portal.",
+      "answer_kn": "ವೈದ್ಯಕೀಯ ವರದಿಗಳನ್ನು ನೆಲಮಹಡಿಯಲ್ಲಿರುವ ವರದಿಗಳ ಕೌಂಟರ್‌ನಿಂದ ಸಂಗ್ರಹಿಸಬಹುದು. ಲ್ಯಾಬ್ ವರದಿಗಳು ಸಾಮಾನ್ಯವಾಗಿ 24 ಗಂಟೆಗಳಲ್ಲಿ ಸಿದ್ಧವಾಗುತ್ತವೆ.",
+      "category": "general"
+    },
+    {
+      "id": "faq008",
+      "question": "What are the payment options?",
+      "question_kn": "ಪಾವತಿ ಆಯ್ಕೆಗಳು ಯಾವುವು?",
+      "question_hi": "भुगतान के विकल्प क्या हैं?",
+      "answer": "We accept cash, all major credit/debit cards, UPI payments, and net banking. EMI options are available for bills above Rs. 10,000.",
+      "answer_kn": "ನಾವು ನಗದು, ಎಲ್ಲಾ ಪ್ರಮುಖ ಕ್ರೆಡಿಟ್/ಡೆಬಿಟ್ ಕಾರ್ಡ್‌ಗಳು, UPI ಪಾವತಿಗಳು ಮತ್ತು ನೆಟ್ ಬ್ಯಾಂಕಿಂಗ್ ಸ್ವೀಕರಿಸುತ್ತೇವೆ.",
+      "category": "billing"
+    },
+    {
+      "id": "faq009",
+      "question": "Is there a cafeteria in the hospital?",
+      "question_kn": "ಆಸ್ಪತ್ರೆಯಲ್ಲಿ ಕ್ಯಾಂಟೀನ್ ಇದೆಯೇ?",
+      "answer": "Yes, we have a cafeteria on the Ground Floor open from 7 AM to 10 PM serving vegetarian and non-vegetarian food. There's also a 24/7 coffee shop near the main lobby.",
+      "answer_kn": "ಹೌದು, ನೆಲಮಹಡಿಯಲ್ಲಿ ಬೆಳಿಗ್ಗೆ 7 ರಿಂದ ರಾತ್ರಿ 10 ರವರೆಗೆ ತೆರೆದಿರುವ ಕ್ಯಾಂಟೀನ್ ಇದೆ.",
+      "category": "general"
+    },
+    {
+      "id": "faq010",
+      "question": "How do I get a birth certificate?",
+      "question_kn": "ಜನನ ಪ್ರಮಾಣಪತ್ರ ಹೇಗೆ ಪಡೆಯಬಹುದು?",
+      "answer": "Birth certificates can be obtained from the Medical Records department on the 1st Floor. Please bring the discharge summary and parent ID proofs. Processing takes 3-5 working days.",
+      "category": "general"
+    },
+    {
+      "id": "faq011",
+      "question": "What should I do in case of emergency?",
+      "question_kn": "ತುರ್ತು ಪರಿಸ್ಥಿತಿಯಲ್ಲಿ ನಾನು ಏನು ಮಾಡಬೇಕು?",
+      "question_hi": "आपातकाल में मुझे क्या करना चाहिए?",
+      "answer": "For medical emergencies, call 108 immediately or come directly to our Emergency department on the Ground Floor, which is open 24/7. Do not wait - seek immediate help.",
+      "answer_kn": "ವೈದ್ಯಕೀಯ ತುರ್ತು ಪರಿಸ್ಥಿತಿಗಳಲ್ಲಿ, ತಕ್ಷಣ 108 ಕರೆ ಮಾಡಿ ಅಥವಾ ನೇರವಾಗಿ ನಮ್ಮ ತುರ್ತು ವಿಭಾಗಕ್ಕೆ ಬನ್ನಿ. ಕಾಯಬೇಡಿ - ತಕ್ಷಣ ಸಹಾಯ ಪಡೆಯಿರಿ.",
+      "category": "emergency"
+    },
+    {
+      "id": "faq012",
+      "question": "Do you have facilities for international patients?",
+      "question_kn": "ಅಂತರಾಷ್ಟ್ರೀಯ ರೋಗಿಗಳಿಗೆ ಸೌಲಭ್ಯಗಳಿವೆಯೇ?",
+      "answer": "Yes, we have a dedicated International Patient Services desk that assists with visa, accommodation, airport transfers, translation services, and medical tourism packages.",
+      "category": "general"
+    }
+  ]
+}

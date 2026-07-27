@@ -66,7 +66,13 @@ WebRTC / Twilio ─▶ Normalize + endpoint (VAD) ─▶ ┬─ MMS-LID (languag
                                                     ─▶ persist turns/recordings (SQLite admin store)
 ```
 
-Full component diagram and measured per-stage latencies: `02-voice-model-ai/README.md`.
+**Notable production features in 02** (beyond the core cascade):
+- **Filler / back-channel manager** (`src/llm/filler_manager.py`) — plays natural "let me check…" fillers while the LLM generates, masking latency.
+- **Agent runtime + profiles** (`src/admin/runtime.py`, `store.py`) — swappable per-domain agent profiles and prompt templates, persisted in a SQLite admin store (also stores turns + recordings).
+- **Human handover mode** (`HANDOVER_MODE`) — escalate a live call to a human.
+- **Multiple frontends** (`src/realtime/*.html`) — full call UI, push-to-talk, admin panel, and a LID test harness.
+
+📐 **Full layer-by-layer architecture — every component we built — is in [ARCHITECTURE.md](ARCHITECTURE.md).** Per-stage latencies and the mermaid diagram are in `02-voice-model-ai/README.md`.
 
 ---
 

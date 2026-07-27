@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apollo Hospital - Admin Panel</title>
+    <link rel="stylesheet" href="/static/admin.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <svg viewBox="0 0 40 40" class="logo-icon">
+                        <circle cx="20" cy="20" r="18" fill="#1a56db" stroke="#fff" stroke-width="2"/>
+                        <path d="M20 8 L20 32 M12 20 L28 20" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
+                    </svg>
+                    <div class="logo-text">
+                        <h1>Apollo Hospital</h1>
+                        <span>Admin Panel</span>
+                    </div>
+                </div>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <a href="#settings" class="nav-item active" data-tab="settings">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="3"/>
+                        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+                    </svg>
+                    <span>Settings</span>
+                </a>
+                <a href="#doctors" class="nav-item" data-tab="doctors">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                        <circle cx="12" cy="7" r="4"/>
+                    </svg>
+                    <span>Doctors</span>
+                </a>
+                <a href="#departments" class="nav-item" data-tab="departments">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                        <polyline points="9 22 9 12 15 12 15 22"/>
+                    </svg>
+                    <span>Departments</span>
+                </a>
+                <a href="#faqs" class="nav-item" data-tab="faqs">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"/>
+                        <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+                        <line x1="12" y1="17" x2="12.01" y2="17"/>
+                    </svg>
+                    <span>FAQs</span>
+                </a>
+                <a href="#escalation" class="nav-item" data-tab="escalation">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+                        <line x1="12" y1="9" x2="12" y2="13"/>
+                        <line x1="12" y1="17" x2="12.01" y2="17"/>
+                    </svg>
+                    <span>Escalation Rules</span>
+                </a>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <a href="/" class="back-link">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="19" y1="12" x2="5" y2="12"/>
+                        <polyline points="12 19 5 12 12 5"/>
+                    </svg>
+                    <span>Back to Voice AI</span>
+                </a>
+            </div>
+        </aside>
+        
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Settings Tab -->
+            <section id="settings" class="tab-content active">
+                <div class="content-header">
+                    <h2>General Settings</h2>
+                    <p>Configure the AI assistant behavior and hospital information</p>
+                </div>
+                
+                <form id="settingsForm" class="settings-form">
+                    <div class="form-section">
+                        <h3>Hospital Information</h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="hospitalName">Hospital Name</label>
+                                <input type="text" id="hospitalName" name="hospital_name" value="Apollo Hospital">
+                            </div>
+                            <div class="form-group">
+                                <label for="city">City</label>
+                                <input type="text" id="city" name="city" value="Bengaluru">
+                            </div>
+                            <div class="form-group">
+                                <label for="emergencyNumber">Emergency Number</label>
+                                <input type="text" id="emergencyNumber" name="emergency_number" value="108">
+                            </div>
+                            <div class="form-group">
+                                <label for="helpline">Helpline</label>
+                                <input type="text" id="helpline" name="helpline" value="1860-500-1066">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-section">
+                        <h3>AI Behavior</h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="tone">Response Tone</label>
+                                <select id="tone" name="tone">
+                                    <option value="formal">Formal</option>
+                                    <option value="friendly">Friendly</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="maxWords">Max Response Words</label>
+                                <input type="number" id="maxWords" name="max_words" value="50" min="20" max="200">
+                            </div>
+                            <div class="form-group">
+                                <label for="primaryLanguage">Primary Language</label>
+                                <select id="primaryLanguage" name="primary_language">
+                                    <option value="en">English</option>
+                                    <option value="kn">Kannada</option>
+                                    <option value="ta">Tamil</option>
+                                    <option value="te">Telugu</option>
+                                    <option value="hi">Hindi</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="sessionTimeout">Session Timeout (min)</label>
+                                <input type="number" id="sessionTimeout" name="session_timeout_minutes" value="30" min="5" max="120">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-section">
+                        <h3>Options</h3>
+                        <div class="checkbox-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="disclaimerRequired" name="disclaimer_required" checked>
+                                <span>Require Medical Disclaimer</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="alwaysRecommendDoctor" name="always_recommend_doctor" checked>
+                                <span>Always Recommend Doctor Consultation</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="ttsEnabled" name="tts_enabled" checked>
+                                <span>Enable Text-to-Speech</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-section">
+                        <h3>Custom Disclaimer</h3>
+                        <div class="form-group full-width">
+                            <textarea id="disclaimerText" name="disclaimer_text" rows="3">This is general information only. Please consult a doctor for medical advice.</textarea>
+                        </div>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">Save Settings</button>
+                        <button type="button" class="btn btn-secondary" onclick="loadSettings()">Reset</button>
+                    </div>
+                </form>
+            </section>
+            
+            <!-- Doctors Tab -->
+            <section id="doctors" class="tab-content">
+                <div class="content-header">
+                    <h2>Manage Doctors</h2>
+                    <p>Add and manage doctor information for patient queries</p>
+                    <button class="btn btn-primary" onclick="showDoctorModal()">+ Add Doctor</button>
+                </div>
+                
+                <div class="data-table-container">
+                    <table class="data-table" id="doctorsTable">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Specialization</th>
+                                <th>Department</th>
+                                <th>Available Days</th>
+                                <th>Timings</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Populated by JavaScript -->
+                        </tbody>
+                    </table>
+                    <div class="empty-state" id="doctorsEmpty">
+                        <p>No doctors added yet. Click "Add Doctor" to get started.</p>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Departments Tab -->
+            <section id="departments" class="tab-content">
+                <div class="content-header">
+                    <h2>Manage Departments</h2>
+                    <p>Add and manage department information</p>
+                    <button class="btn btn-primary" onclick="showDepartmentModal()">+ Add Department</button>
+                </div>
+                
+                <div class="data-table-container">
+                    <table class="data-table" id="departmentsTable">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Floor</th>
+                                <th>Timings</th>
+                                <th>Contact</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Populated by JavaScript -->
+                        </tbody>
+                    </table>
+                    <div class="empty-state" id="departmentsEmpty">
+                        <p>No departments added yet. Click "Add Department" to get started.</p>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- FAQs Tab -->
+            <section id="faqs" class="tab-content">
+                <div class="content-header">
+                    <h2>Manage FAQs</h2>
+                    <p>Add frequently asked questions for the AI to reference</p>
+                    <button class="btn btn-primary" onclick="showFaqModal()">+ Add FAQ</button>
+                </div>
+                
+                <div class="data-table-container">
+                    <table class="data-table" id="faqsTable">
+                        <thead>
+                            <tr>
+                                <th>Question</th>
+                                <th>Answer</th>
+                                <th>Category</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Populated by JavaScript -->
+                        </tbody>
+                    </table>
+                    <div class="empty-state" id="faqsEmpty">
+                        <p>No FAQs added yet. Click "Add FAQ" to get started.</p>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Escalation Tab -->
+            <section id="escalation" class="tab-content">
+                <div class="content-header">
+                    <h2>Escalation Rules</h2>
+                    <p>Configure when to escalate queries to human agents</p>
+                </div>
+                
+                <form id="escalationForm" class="settings-form">
+                    <div class="form-section">
+                        <h3>Custom Escalation Keywords</h3>
+                        <p class="form-description">Add keywords that will trigger escalation to a human agent (one per line)</p>
+                        <div class="form-group full-width">
+                            <textarea id="escalationKeywords" name="escalation_keywords" rows="6" placeholder="Enter keywords, one per line..."></textarea>
+                        </div>
+                    </div>
+                    
+                    <div class="form-section">
+                        <h3>Default Escalation Rules</h3>
+                        <div class="rules-list">
+                            <div class="rule-item">
+                                <span class="rule-icon">1</span>
+                                <div class="rule-content">
+                                    <strong>Critical Symptoms</strong>
+                                    <p>Chest pain, heart attack, breathing difficulty, unconscious, seizure, stroke - Always escalate</p>
+                                </div>
+                            </div>
+                            <div class="rule-item">
+                                <span class="rule-icon">2</span>
+                                <div class="rule-content">
+                                    <strong>High Urgency + Medical Query</strong>
+                                    <p>Multiple urgency keywords with medical intent</p>
+                                </div>
+                            </div>
+                            <div class="rule-item">
+                                <span class="rule-icon">3</span>
+                                <div class="rule-content">
+                                    <strong>Low Confidence Recognition</strong>
+                                    <p>When speech recognition confidence is low on medical queries</p>
+                                </div>
+                            </div>
+                            <div class="rule-item">
+                                <span class="rule-icon">4</span>
+                                <div class="rule-content">
+                                    <strong>Repeated Queries</strong>
+                                    <p>User asks similar question multiple times (may be struggling)</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">Save Escalation Rules</button>
+                    </div>
+                </form>
+            </section>
+        </main>
+    </div>
+    
+    <!-- Doctor Modal -->
+    <div class="modal" id="doctorModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="doctorModalTitle">Add Doctor</h3>
+                <button class="modal-close" onclick="closeModal('doctorModal')">&times;</button>
+            </div>
+            <form id="doctorForm">
+                <input type="hidden" id="doctorId" name="id">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="doctorName">Name *</label>
+                        <input type="text" id="doctorName" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="doctorNameKn">Name (Kannada)</label>
+                        <input type="text" id="doctorNameKn" name="name_kn" placeholder="ಕನ್ನಡ ಹೆಸರು">
+                    </div>
+                    <div class="form-group">
+                        <label for="doctorSpec">Specialization *</label>
+                        <input type="text" id="doctorSpec" name="specialization" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="doctorDept">Department *</label>
+                        <input type="text" id="doctorDept" name="department" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="doctorTimings">Timings</label>
+                        <input type="text" id="doctorTimings" name="timings" placeholder="9:00 AM - 5:00 PM">
+                    </div>
+                    <div class="form-group">
+                        <label>Available Days</label>
+                        <div class="days-checkboxes">
+                            <label><input type="checkbox" name="available_days" value="Monday"> Mon</label>
+                            <label><input type="checkbox" name="available_days" value="Tuesday"> Tue</label>
+                            <label><input type="checkbox" name="available_days" value="Wednesday"> Wed</label>
+                            <label><input type="checkbox" name="available_days" value="Thursday"> Thu</label>
+                            <label><input type="checkbox" name="available_days" value="Friday"> Fri</label>
+                            <label><input type="checkbox" name="available_days" value="Saturday"> Sat</label>
+                            <label><input type="checkbox" name="available_days" value="Sunday"> Sun</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('doctorModal')">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Doctor</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Department Modal -->
+    <div class="modal" id="departmentModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="departmentModalTitle">Add Department</h3>
+                <button class="modal-close" onclick="closeModal('departmentModal')">&times;</button>
+            </div>
+            <form id="departmentForm">
+                <input type="hidden" id="departmentId" name="id">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="deptName">Name *</label>
+                        <input type="text" id="deptName" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="deptFloor">Floor/Location *</label>
+                        <input type="text" id="deptFloor" name="floor" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="deptTimings">Timings</label>
+                        <input type="text" id="deptTimings" name="timings" placeholder="8:00 AM - 8:00 PM">
+                    </div>
+                    <div class="form-group">
+                        <label for="deptContact">Contact</label>
+                        <input type="text" id="deptContact" name="contact" placeholder="080-XXXX-XXXX">
+                    </div>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('departmentModal')">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Department</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- FAQ Modal -->
+    <div class="modal" id="faqModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="faqModalTitle">Add FAQ</h3>
+                <button class="modal-close" onclick="closeModal('faqModal')">&times;</button>
+            </div>
+            <form id="faqForm">
+                <input type="hidden" id="faqId" name="id">
+                <div class="form-group full-width">
+                    <label for="faqQuestion">Question (English) *</label>
+                    <input type="text" id="faqQuestion" name="question" required>
+                </div>
+                <div class="form-group full-width">
+                    <label for="faqQuestionKn">Question (Kannada)</label>
+                    <input type="text" id="faqQuestionKn" name="question_kn" placeholder="ಕನ್ನಡ ಪ್ರಶ್ನೆ">
+                </div>
+                <div class="form-group full-width">
+                    <label for="faqAnswer">Answer (English) *</label>
+                    <textarea id="faqAnswer" name="answer" rows="3" required></textarea>
+                </div>
+                <div class="form-group full-width">
+                    <label for="faqAnswerKn">Answer (Kannada)</label>
+                    <textarea id="faqAnswerKn" name="answer_kn" rows="3" placeholder="ಕನ್ನಡ ಉತ್ತರ"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="faqCategory">Category</label>
+                    <select id="faqCategory" name="category">
+                        <option value="general">General</option>
+                        <option value="appointment">Appointment</option>
+                        <option value="billing">Billing</option>
+                        <option value="emergency">Emergency</option>
+                        <option value="visiting">Visiting Hours</option>
+                    </select>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('faqModal')">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save FAQ</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Toast Notification -->
+    <div class="toast" id="toast"></div>
+    
+    <script src="/static/admin.js"></script>
+</body>
+</html>
