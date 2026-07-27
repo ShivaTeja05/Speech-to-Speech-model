@@ -22,10 +22,11 @@ This repository consolidates the full body of work behind the project — from t
 ## How the layers connect
 
 ```
-                          ┌─────────────────────────────┐
-   04 tts-training  ─────▶│  Trained Tamil voice (.onnx) │─────┐
-   (train the voice)      └─────────────────────────────┘     │ used by
-                                                               ▼
+                          ┌──────────────────────────────────────────────┐
+   04 tts-training  ─────▶│  Custom-trained Tamil Piper voice (.onnx)     │──┐
+   (we trained the        │  → one of the per-language TTS models below   │  │ used by
+    Tamil voice)          └──────────────────────────────────────────────┘  │
+                                                                             ▼
    01 Demo-THIT prototype  ──(matured / rewritten into)──▶  02 voice-model-ai
    (first working system,                                   (production pipeline
     safety gate + RAG + UI)                                  + emergency classifier,
@@ -34,9 +35,38 @@ This repository consolidates the full body of work behind the project — from t
    03 apollo-engine  ── separate research direction: one unified model instead of a cascade
 ```
 
+### Multilingual strategy: what is per-language vs shared
+
+The system speaks **Hindi, Tamil, Telugu, Kannada, English**. Only the **TTS**
+stage swaps models per language — the rest are single multilingual models:
+
+| Stage | Per-language? | Model(s) |
+|-------|---------------|----------|
+| Language ID | shared | MMS-LID (`facebook/mms-lid-256`) |
+| ASR | shared | Whisper-small (one multilingual model) |
+| LLM | shared model, **per-language prompt/template** | `llama3.2:3b` |
+| **TTS** | **yes — a different model per language** | **Piper** ONNX per language: `en_US-lessac`, `hi_IN-rohan`, **`ta_IN-iitm-female` (trained in layer 04)**, `te_IN-maya`; **Edge TTS** for Kannada + as fallback |
+
+TTS routing (`02-voice-model-ai/src/tts/tts_manager.py`): `kn → Edge TTS`,
+`{en, hi, ta, te} → Piper`, anything else → Edge, with Piper→Edge (and
+Piper-English) fallbacks when a voice is missing.
+
 - **01 → 02**: The prototype proved the 8-stage cascade end to end. The production layer is the cleaner, benchmarked rewrite of that idea. The prototype's **text safety gate and RAG grounding have now been folded into 02** (`src/llm/safety_gate.py`, `src/llm/rag_retriever.py`; see `02-voice-model-ai/INTEGRATION_SAFETY_RAG.md`). The admin/healthcare config and web UI still live only in **01**.
-- **04 → 01/02**: Both runtime pipelines speak Tamil using the voice trained in layer 04.
+- **04 → 01/02**: Layer 04 specifically trained the **Tamil** Piper voice; the runtime pipelines load it as one of the per-language TTS voices above.
 - **03**: An independent bet on a single unified speech-to-speech transformer (vs. the cascade). Promising architecture, not yet trained.
+
+### Full runtime pipeline (inside 02)
+
+```
+WebRTC / Twilio ─▶ Normalize + endpoint (VAD) ─▶ ┬─ MMS-LID (language)
+                                                 ├─ Mimi encoder + distress classifier  (parallel safety)
+                                                 └─ Whisper ASR ─▶ text safety gate + RAG ─▶ LLM (Ollama,
+                                                    per-language prompt, semantic cache + Redis context)
+                                                    ─▶ stream chunker ─▶ per-language TTS ─▶ audio out
+                                                    ─▶ persist turns/recordings (SQLite admin store)
+```
+
+Full component diagram and measured per-stage latencies: `02-voice-model-ai/README.md`.
 
 ---
 
