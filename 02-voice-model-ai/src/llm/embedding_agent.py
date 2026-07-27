@@ -346,6 +346,9 @@ def process_with_context(
                 "source": "semantic-cache",
                 "similarity": result["similarity"],
                 "new_session": is_new_session,
+                "escalate": safety.get("should_escalate", False),
+                "safety": safety,
+                "rag_used": rag_used,
                 "cached": True,
                 "stream": True
             }
@@ -355,7 +358,10 @@ def process_with_context(
             "session_id": session_id,
             "source": "semantic-cache",
             "similarity": result["similarity"],
-            "new_session": is_new_session
+            "new_session": is_new_session,
+            "escalate": safety.get("should_escalate", False),
+            "safety": safety,
+            "rag_used": rag_used
         }
     
     # Step 3/4: Conversation context (Redis-backed) or stateless fallback.

@@ -122,9 +122,10 @@ def prepare_dataset(input_dir, output_dir, sample_rate=22050, metadata_file="met
 
 if __name__ == "__main__":
     # Configure paths
-    INPUT_DIR = "/Users/gaddamshivateja/Desktop/solvathon files/DATASET FOR TAMIL" 
-    # Output to the dojo dataset folder as per TextyMcSpeechy structure
-    OUTPUT_DIR = "/Users/gaddamshivateja/Desktop/solvathon files/TextyMcSpeechy/tts_dojo/DATASETS/tamil_dataset"
+    # Override with TAMIL_DATASET_DIR / TAMIL_OUTPUT_DIR; defaults are relative.
+    INPUT_DIR = os.environ.get("TAMIL_DATASET_DIR", "DATASET FOR TAMIL")
+    # Output to the dojo dataset folder (TextyMcSpeechy structure) by default.
+    OUTPUT_DIR = os.environ.get("TAMIL_OUTPUT_DIR", "tamil_dataset")
     
     # Run slightly smaller batch first to verify? Or just run it. 
     # Let's set a safe limit for the first run, or user can edit.

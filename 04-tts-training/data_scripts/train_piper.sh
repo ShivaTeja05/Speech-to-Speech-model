@@ -1,8 +1,9 @@
 #!/bin/bash
 set -e
 
-# Use specific python interpreter where piper is installed
-PYTHON_EXEC="/Users/gaddamshivateja/miniconda3/bin/python"
+# Python interpreter where piper is installed. Override with PYTHON_EXEC=...;
+# defaults to python3/python on PATH.
+PYTHON_EXEC="${PYTHON_EXEC:-$(command -v python3 || command -v python)}"
 
 # Configuration
 DATASET_DIR="DATASET FOR TAMIL"
