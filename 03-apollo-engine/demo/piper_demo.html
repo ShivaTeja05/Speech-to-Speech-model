@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Piper TTS Demo - Neural Text-to-Speech</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #22d3ee;
+            --accent: #f472b6;
+            --bg-dark: #0f0f1a;
+            --bg-card: rgba(255, 255, 255, 0.05);
+            --text: #f8fafc;
+            --text-muted: #94a3b8;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-dark);
+            background-image:
+                radial-gradient(ellipse at top left, rgba(99, 102, 241, 0.15), transparent 50%),
+                radial-gradient(ellipse at bottom right, rgba(34, 211, 238, 0.1), transparent 50%);
+            min-height: 100vh;
+            color: var(--text);
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .logo {
+            font-size: 4rem;
+            margin-bottom: 16px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+
+        .card {
+            background: var(--bg-card);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 32px;
+            margin-bottom: 24px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .card-title {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 16px;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 120px;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            color: var(--text);
+            font-family: inherit;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            resize: vertical;
+            transition: border-color 0.3s ease;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        textarea::placeholder {
+            color: var(--text-muted);
+        }
+
+        .voice-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+        }
+
+        .voice-btn {
+            padding: 16px 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+        }
+
+        .voice-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--primary);
+            color: var(--text);
+        }
+
+        .voice-btn.active {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            border-color: transparent;
+            color: white;
+        }
+
+        .voice-btn .voice-name {
+            font-weight: 600;
+            font-size: 1rem;
+            margin-bottom: 4px;
+        }
+
+        .voice-btn .voice-lang {
+            font-size: 0.85rem;
+            opacity: 0.8;
+        }
+
+        .controls {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .control-group {
+            flex: 1;
+            min-width: 150px;
+        }
+
+        .control-label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        input[type="range"] {
+            width: 100%;
+            height: 8px;
+            -webkit-appearance: none;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            outline: none;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            background: var(--primary);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+        }
+
+        .range-value {
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--secondary);
+            margin-top: 6px;
+        }
+
+        .synthesize-btn {
+            width: 100%;
+            padding: 20px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border: none;
+            border-radius: 16px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .synthesize-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.4);
+        }
+
+        .synthesize-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .synthesize-btn::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .synthesize-btn:active::after {
+            width: 300px;
+            height: 300px;
+        }
+
+        .audio-player {
+            display: none;
+            margin-top: 16px;
+        }
+
+        .audio-player.visible {
+            display: block;
+            animation: slideUp 0.4s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        audio {
+            width: 100%;
+            border-radius: 12px;
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .download-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 12px;
+            padding: 12px 24px;
+            background: rgba(34, 211, 238, 0.2);
+            border: 1px solid var(--secondary);
+            border-radius: 8px;
+            color: var(--secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .download-btn:hover {
+            background: var(--secondary);
+            color: var(--bg-dark);
+        }
+
+        .status {
+            text-align: center;
+            margin-top: 16px;
+            min-height: 24px;
+        }
+
+        .status.loading {
+            color: var(--secondary);
+        }
+
+        .status.error {
+            color: #f87171;
+        }
+
+        .status.success {
+            color: #4ade80;
+        }
+
+        .wave-loader {
+            display: none;
+            justify-content: center;
+            gap: 4px;
+            height: 40px;
+            align-items: center;
+        }
+
+        .wave-loader.active {
+            display: flex;
+        }
+
+        .wave-loader span {
+            width: 6px;
+            background: linear-gradient(to top, var(--primary), var(--secondary));
+            border-radius: 3px;
+            animation: wave 1s ease-in-out infinite;
+        }
+
+        .wave-loader span:nth-child(1) {
+            height: 20px;
+            animation-delay: 0s;
+        }
+
+        .wave-loader span:nth-child(2) {
+            height: 30px;
+            animation-delay: 0.1s;
+        }
+
+        .wave-loader span:nth-child(3) {
+            height: 40px;
+            animation-delay: 0.2s;
+        }
+
+        .wave-loader span:nth-child(4) {
+            height: 30px;
+            animation-delay: 0.3s;
+        }
+
+        .wave-loader span:nth-child(5) {
+            height: 20px;
+            animation-delay: 0.4s;
+        }
+
+        @keyframes wave {
+
+            0%,
+            100% {
+                transform: scaleY(0.5);
+            }
+
+            50% {
+                transform: scaleY(1);
+            }
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .footer a {
+            color: var(--secondary);
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 10px;
+            background: rgba(99, 102, 241, 0.2);
+            border-radius: 20px;
+            font-size: 0.75rem;
+            color: var(--primary);
+            margin-left: 8px;
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            .card {
+                padding: 20px;
+            }
+
+            .controls {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="logo">🔊</div>
+            <h1>Piper TTS</h1>
+            <p class="subtitle">Fast, Local Neural Text-to-Speech</p>
+        </header>
+
+        <!-- Text Input -->
+        <div class="card">
+            <div class="card-title">📝 Text to Speak</div>
+            <textarea id="textInput" placeholder="Enter text to synthesize...
+Example: Welcome to Piper TTS! This is a fast and local neural text-to-speech system.
+
+हिंदी में: नमस्ते! यह पाइपर टेक्स्ट-टू-स्पीच है।"></textarea>
+        </div>
+
+        <!-- Voice Selection -->
+        <div class="card">
+            <div class="card-title">🎙️ Select Voice</div>
+            <div class="voice-grid" id="voiceGrid">
+                <button class="voice-btn active" data-voice="en_US-lessac-medium">
+                    <div class="voice-name">English (US)</div>
+                    <div class="voice-lang">Lessac - Clear American</div>
+                </button>
+                <button class="voice-btn" data-voice="hi_IN-rohan-medium">
+                    <div class="voice-name">हिंदी (Hindi)</div>
+                    <div class="voice-lang">Rohan - Male</div>
+                </button>
+            </div>
+        </div>
+
+        <!-- Speed Control -->
+        <div class="card">
+            <div class="card-title">⚡ Speech Settings</div>
+            <div class="controls">
+                <div class="control-group">
+                    <label class="control-label">Speed</label>
+                    <input type="range" id="speedRange" min="0.5" max="2" step="0.1" value="1">
+                    <div class="range-value"><span id="speedValue">1.0</span>x</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Synthesize Button -->
+        <div class="card">
+            <button class="synthesize-btn" id="synthesizeBtn">
+                🎵 Synthesize Speech
+            </button>
+
+            <div class="wave-loader" id="loader">
+                <span></span><span></span><span></span><span></span><span></span>
+            </div>
+
+            <div class="status" id="status"></div>
+
+            <div class="audio-player" id="audioPlayer">
+                <audio id="audioElement" controls></audio>
+                <a href="#" class="download-btn" id="downloadBtn">
+                    ⬇️ Download WAV
+                </a>
+            </div>
+        </div>
+
+        <footer class="footer">
+            Powered by <a href="https://github.com/OHF-Voice/piper1-gpl" target="_blank">Piper TTS</a>
+            <span class="badge">Local AI</span>
+            <br><br>
+            Part of Apollo Voice Engine • SNAC + Piper Integration
+        </footer>
+    </div>
+
+    <script>
+        // Elements
+        const textInput = document.getElementById('textInput');
+        const voiceGrid = document.getElementById('voiceGrid');
+        const speedRange = document.getElementById('speedRange');
+        const speedValue = document.getElementById('speedValue');
+        const synthesizeBtn = document.getElementById('synthesizeBtn');
+        const loader = document.getElementById('loader');
+        const status = document.getElementById('status');
+        const audioPlayer = document.getElementById('audioPlayer');
+        const audioElement = document.getElementById('audioElement');
+        const downloadBtn = document.getElementById('downloadBtn');
+
+        let selectedVoice = 'en_US-lessac-medium';
+        let currentAudioBlob = null;
+
+        // Voice selection
+        voiceGrid.querySelectorAll('.voice-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                voiceGrid.querySelectorAll('.voice-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                selectedVoice = btn.dataset.voice;
+            });
+        });
+
+        // Speed slider
+        speedRange.addEventListener('input', () => {
+            speedValue.textContent = parseFloat(speedRange.value).toFixed(1);
+        });
+
+        // Synthesize
+        synthesizeBtn.addEventListener('click', async () => {
+            const text = textInput.value.trim();
+
+            if (!text) {
+                showStatus('Please enter some text', 'error');
+                return;
+            }
+
+            // Show loading
+            synthesizeBtn.disabled = true;
+            loader.classList.add('active');
+            audioPlayer.classList.remove('visible');
+            showStatus('Synthesizing speech...', 'loading');
+
+            try {
+                const response = await fetch('/synthesize', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        text: text,
+                        voice: selectedVoice,
+                        length_scale: 1 / parseFloat(speedRange.value),
+                        format: 'base64'
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Server error: ${response.status}`);
+                }
+
+                const data = await response.json();
+
+                // Decode base64 audio
+                const audioData = atob(data.audio);
+                const audioArray = new Uint8Array(audioData.length);
+                for (let i = 0; i < audioData.length; i++) {
+                    audioArray[i] = audioData.charCodeAt(i);
+                }
+
+                currentAudioBlob = new Blob([audioArray], { type: 'audio/wav' });
+                const audioUrl = URL.createObjectURL(currentAudioBlob);
+
+                // Show player
+                audioElement.src = audioUrl;
+                audioPlayer.classList.add('visible');
+                downloadBtn.href = audioUrl;
+                downloadBtn.download = 'piper_speech.wav';
+
+                showStatus('✓ Speech synthesized successfully!', 'success');
+
+                // Auto-play
+                audioElement.play().catch(() => {
+                    // Autoplay might be blocked
+                });
+
+            } catch (error) {
+                console.error('Synthesis error:', error);
+                showStatus(`Error: ${error.message}`, 'error');
+            } finally {
+                synthesizeBtn.disabled = false;
+                loader.classList.remove('active');
+            }
+        });
+
+        function showStatus(message, type) {
+            status.textContent = message;
+            status.className = `status ${type}`;
+        }
+
+        // Load voices from server
+        async function loadVoices() {
+            try {
+                const response = await fetch('/voices');
+                const data = await response.json();
+
+                if (data.voices && data.voices.length > 0) {
+                    voiceGrid.innerHTML = '';
+                    data.voices.forEach((voice, index) => {
+                        const btn = document.createElement('button');
+                        btn.className = `voice-btn ${index === 0 ? 'active' : ''}`;
+                        btn.dataset.voice = voice.id;
+                        btn.innerHTML = `
+                            <div class="voice-name">${voice.name}</div>
+                            <div class="voice-lang">${voice.description}</div>
+                        `;
+                        btn.addEventListener('click', () => {
+                            voiceGrid.querySelectorAll('.voice-btn').forEach(b => b.classList.remove('active'));
+                            btn.classList.add('active');
+                            selectedVoice = voice.id;
+                        });
+                        voiceGrid.appendChild(btn);
+                    });
+                    selectedVoice = data.voices[0].id;
+                }
+            } catch (error) {
+                console.log('Using default voice list');
+            }
+        }
+
+        // Initialize
+        loadVoices();
+    </script>
+</body>
+
+</html>

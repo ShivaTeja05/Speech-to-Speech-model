@@ -1,0 +1,36 @@
+# Core ML
+torch>=2.1.0
+torchaudio>=2.1.0
+transformers>=4.36.0
+accelerate>=0.25.0
+datasets>=2.16.0
+
+# Audio Processing
+snac>=1.2.0
+soundfile>=0.12.1
+librosa>=0.10.1
+webrtcvad>=2.0.10
+
+# Fine-tuning
+peft>=0.7.0
+bitsandbytes>=0.42.0
+
+# Utilities
+scipy>=1.11.0
+numpy>=1.24.0
+pyyaml>=6.0.1
+tqdm>=4.66.0
+
+# WebRTC Integration
+aiohttp>=3.9.0
+aiortc>=1.6.0
+
+# Development
+pytest>=7.4.0
+pytest-asyncio>=0.21.0
+
+# API Demo
+fastapi>=0.104.0
+uvicorn>=0.24.0
+pyngrok>=6.0.0
+nest-asyncio>=1.5.8
